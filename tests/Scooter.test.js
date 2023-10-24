@@ -13,7 +13,7 @@ describe("scooter object", () => {
 // Scooter property tests here
 describe("Scooter property tests", () => {
   const scooter = new Scooter("Liverpool");
-  const user = new User("Joe Bloggs", "test123", 21);
+  const user = new User("JoeBloggs", "test123", 21);
 
   // test station
   test("station should be a String", () => {
@@ -22,6 +22,7 @@ describe("Scooter property tests", () => {
   test("station should be a Liverpool", () => {
     expect(scooter.station).toBe("Liverpool");
   });
+
   // test user (initialised)
   test("if docked user should be the null", () => {
     expect(scooter.user).toBe("null");
@@ -30,12 +31,13 @@ describe("Scooter property tests", () => {
   test("if not docked user should be the User who checked out the Scooter", () => {
     scooter.rent(user);
     expect(scooter.user).toEqual({
-      name: "Joe Bloggs",
+      name: "JoeBloggs",
       password: "test123",
       age: 21,
       loggedIn: false,
     });
   });
+
   // test serial
   test("serial should be a number", () => {
     expect(typeof scooter.serial).toBe("number");
@@ -80,7 +82,8 @@ describe("Scooter property tests", () => {
 // Scooter method tests
 describe("Scooter method tests", () => {
   const scooter = new Scooter("Liverpool");
-  const user = new User("Joe Bloggs", "test123", 21);
+  const user = new User("JoeBloggs", "test123", 21);
+
   // test rent
   test("If the Scooter is charged above 20% and not broken, remove it from its station.", () => {
     scooter.rent(user);
@@ -89,20 +92,20 @@ describe("Scooter method tests", () => {
   test("If the Scooter is charged above 20% and not broken, check it out to the user.", () => {
     scooter.rent(user);
     expect(scooter.user).toEqual({
-      name: "Joe Bloggs",
+      name: "JoeBloggs",
       password: "test123",
       age: 21,
       loggedIn: false,
     });
   });
   test("If the Scooter has less than 20%, throw an error scooter needs to charge", () => {
-    //NEEDS EDITING
+    scooter.charge = 19;
     expect(() => {
       scooter.rent(user);
     }).toThrow("scooter needs to charge");
   });
   test("If the Scooter is broken, throw an error scooter needs repair", () => {
-    //NEEDS EDITING
+    scooter.isBroken = true;
     expect(() => {
       scooter.rent(user);
     }).toThrow("scooter needs repair");
