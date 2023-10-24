@@ -2,11 +2,10 @@ const Scooter = require("../src/Scooter");
 const User = require("../src/User");
 const ScooterApp = require("../src/ScooterApp");
 
-// ScooterApp tests here
-
-// property tests
+// property tests (ALL DONE)
 describe("ScooterApp property tests", () => {
   const scooterApp = new ScooterApp();
+  //scooterApp.stations is hardcoded as { Liverpool: [], London: [], Bristol: [] }
 
   //test stations
   test("stations should be an object ", () => {
@@ -24,20 +23,19 @@ describe("ScooterApp property tests", () => {
 
   //test registeredUsers
   test("registeredUsers should be an object", () => {
-    scooterApp.registerUser("Joe Bloggs", "test123", 21);
+    scooterApp.registerUser("JoeBloggs", "test123", 21);
     expect(typeof scooterApp.registeredUsers).toEqual("object");
   });
-
   //test values of registeredUsers
   test("registeredUsers should be an instance of User", () => {
     scooterApp.registerUser("JoeBloggs", "test123", 21);
     expect(scooterApp.registeredUsers["JoeBloggs"]).toBeInstanceOf(User);
   });
   test("registeredUsers should be an object whose keys are usernames to store all users", () => {
-    scooterApp.registerUser("Joe Bloggs", "test123", 21);
+    scooterApp.registerUser("JoeBloggs", "test123", 21);
     expect(scooterApp.registeredUsers).toEqual({
-      "Joe Bloggs": {
-        username: "Joe Bloggs",
+      JoeBloggs: {
+        username: "JoeBloggs",
         password: "test123",
         age: 21,
         loggedIN: false,
@@ -47,186 +45,277 @@ describe("ScooterApp property tests", () => {
 });
 
 // method tests
+
+//registerUser tests COMPLETE
 describe("registerUser method tests", () => {
-  scooterApp.registerUser("JoeBloggs", "test123", 21);
+  const scooterApp = new ScooterApp();
+  const scooter1 = new Scooter("Liverpool");
+  const user1 = new User("JoeBloggs", "test123", 21);
 
   //console logs 'the user has been registered'
-  test("", () => {
-    expect(console.log).toHaveBeenCalledWith("user has been logged in");
+  test("console logs that 'the user has been registered'", () => {
+    scooterApp.registerUser("JoeBloggs", "test123", 21);
+    expect(console.log).toHaveBeenCalledWith("the user has been registered");
   });
 
   // updates the registeredUsers property
-  test("", () => {
-    expect().toBe();
+  test("updates the registeredUsers property", () => {
+    scooterApp.registerUser("JoeBloggs", "test123", 21);
+    expect(scooterApp.registeredUsers).toEqual({
+      JoeBloggs: {
+        username: "JoeBloggs",
+        password: "test123",
+        age: 21,
+        loggedIN: false,
+      },
+    });
   });
 
   //throw an error: 'already registered'
-  test("", () => {
+  test("throw an error 'already registered' if the user is already registered", () => {
+    scooterApp.registerUser("JoeBloggs", "test123", 21);
+
     expect(() => {
-      //something;
+      scooterApp.registerUser("JoeBloggs", "test123", 21);
     }).toThrow("already registered");
   });
 
   //throw an error: 'too young to register'
-  test("", () => {
+  test("throw an error 'too young to register' if the users age is too young", () => {
     expect(() => {
-      //something;
+      scooterApp.registerUser("JoeBloggs", "test123", 19);
     }).toThrow("too young to register");
   });
 });
 
-// loginuser tests
+// loginuser tests (COMPLETE)
 describe("loginUser method tests", () => {
-  scooterApp.loginUser("JoeBloggs", "test123");
+  const scooterApp = new ScooterApp();
+  scooterApp.registerUser("JoeBloggs", "test123", 21);
 
   //console logs 'the user has been logged in'
-  test("", () => {
+  test("console.logs the user has been loggen in  if the user is successfully logged in", () => {
     scooterApp.loginUser("JoeBloggs", "test123");
     expect(console.log).toHaveBeenCalledWith("user has been logged in");
   });
 
-  //can locate the user
-  test("", () => {
-    expect().toBe();
-  });
-  // updates the .loggedIn value of the user
-  test("", () => {
-    expect().toBe();
+  //updates the .loggedIn value of the user
+  test("updates the .loggedIn value of the user", () => {
+    scooterApp.loginUser("JoeBloggs", "test123");
+    expect(scooterApp.registeredUsers["JoeBloggs"].loggedIn).toBe(true);
   });
 
   //if the user cant be located
-  test("", () => {
-    let response = scooterApp.registerUser("Joe Bloggs", "test123", 21);
+  test("console.log 'Username or password is incorrect' if the user cant be located", () => {
+    scooterApp.loginUser("JoeBlogg", "test123");
     expect(console.log).toHaveBeenCalledWith(
       "Username or password is incorrect"
     );
   });
+
   //if the password is incorrrect
-  test("", () => {
-    let response = scooterApp.registerUser("Joe Bloggs", "test123", 21);
+  test("console.log 'Username or password is incorrect' if the password is incorrect", () => {
+    scooterApp.loginUser("JoeBloggs", "tEst123");
     expect(console.log).toHaveBeenCalledWith(
       "Username or password is incorrect"
     );
   });
 });
 
-// logoutUser tests
+// logoutUser tests (COMPLETE)
 describe("logoutUser method tests", () => {
-  scooterApp.logoutUser("JoeBloggs");
+  const scooterApp = new ScooterApp();
+  scooterApp.registerUser("JoeBloggs", "test123", 21);
+  scooterApp.loginUser("JoeBloggs", "test123");
 
   //console logs 'the user is logged out'
-  test("", () => {
-    scooterApp.loginUser("JoeBloggs", "test123");
+  test("console logs 'the user is logged out", () => {
+    scooterApp.logoutUser("JoeBloggs");
     expect(console.log).toHaveBeenCalledWith("the user is logged out");
   });
 
-  //can locate the user
-  test("", () => {
-    expect().toBe();
-  });
   // updates the .loggedIn value of the user
-  test("", () => {
-    expect().toBe();
+  test("updates the .loggedIn value of the user", () => {
+    scooterApp.logoutUser("JoeBloggs");
+    expect(scooterApp.registeredUsers["JoeBloggs"].loggedIn).toBe(false);
   });
 
   //If the user cannot be located, throw no such user is logged in error
-  test("", () => {
+  test("throw no such user is logged in error, if the user cannot be located,", () => {
     expect(() => {
-      //something;
+      scooterApp.logoutUser("JoeBlogg");
     }).toThrow("no such user is logged in");
   });
 });
 
-// create scooter
+// create scooter (COMPLETE)
 describe("createScooter method tests", () => {
-  scooterApp.createScooter("London");
+  const scooterApp = new ScooterApp();
+  //scooterApp.stations is hardcoded as { Liverpool: [], London: [], Bristol: [] }
 
   // console.logs 'created new scooter'
-  test("", () => {
-    scooterApp.loginUser("JoeBloggs", "test123");
+  test("console.logs 'created new scooter' when done successfully", () => {
+    scooterApp.createScooter("London");
     expect(console.log).toHaveBeenCalledWith("the user is logged out");
   });
 
   // updates the .stations object with this scooter as a scooter in that stations list
-  test("", () => {
-    expect().toBe();
+  test("updates the scooterApp.stations object with this new scooter as a scooter in that stations list", () => {
+    scooterApp.createScooter("London");
+    expect(scooterApp.stations["London"]).toEqual({
+      station: "London",
+      user: null,
+      serial: 1,
+      nextSerial: 2,
+      charge: 100,
+      isBroken: false,
+    });
   });
 
   //station index station.length - 1 should be instance of Scooter
-  test("", () => {
-    expect().toBeInstanceOf(Scooter);
+  test("station index station['stationname'][length - 1] (NEW VALUE) should be an instance of Scooter", () => {
+    scooterApp.createScooter("London");
+    const londonList = scooterApp.stations["London"];
+    expect(londonList[londonList.length - 1]).toBeInstanceOf(Scooter);
   });
 
   //If the station cannot be located, throw no such station error
-  test("", () => {
+  test("If the station cannot be located, throw no such station error", () => {
     expect(() => {
-      //something;
+      scooterApp.createScooter("Cornwall");
     }).toThrow("no such station");
   });
 });
 
-// dock scooter
+// dock scooter (COMPLETE)
 describe("dockScooter method tests", () => {
-  const scooter = new Scooter("Liverpool");
-  scooterApp.dockScooter(scooter, "London");
+  const scooterApp = new ScooterApp();
+  const scooter = new Scooter("Bristol");
+  scooter.station = null;
 
   // Log scooter is docked to the console.
-  test("", () => {
+  test("should log 'scooter is docked' to the console", () => {
     scooterApp.dockScooter(scooter, "London");
     expect(console.log).toHaveBeenCalledWith("scooter is docked");
   });
 
   // updates the .stations object with this scooter as a scooter in that stations list
-  test("", () => {
-    expect().toBe();
+  test("should updates the scooterApp.stations object with this scooter in this station", () => {
+    scooterApp.dockScooter(scooter, "London");
+    expect(scooterApp.stations["London"]).toEqual({
+      station: "London",
+      user: null,
+      serial: 1,
+      nextSerial: 2,
+      charge: 100,
+      isBroken: false,
+    });
   });
 
   //station index station.length - 1 should be instance of Scooter
-  test("", () => {
-    expect().toBeInstanceOf(Scooter);
+  test("station index station['stationname'][length - 1] (NEW VALUE) should be an instance of Scooter", () => {
+    scooterApp.dockScooter(scooter, "London");
+    const londonList = scooterApp.stations["London"];
+    expect(londonList[londonList.length - 1]).toBeInstanceOf(Scooter);
   });
 
   //Throws 'no such station' error if the station does not exist.
-  test("", () => {
+  test("should throw 'no such station' error if the station does not exist", () => {
     expect(() => {
-      //something;
+      scooterApp.dockScooter(scooter, "Cornwall");
     }).toThrow("no such station");
   });
 
   //Throws 'scooter already at station' error if the scooter is already there.
-  test("", () => {
+  test("should throw 'scooter already at station' error if the scooter is already there", () => {
+    scooterApp.dockScooter(scooter, "London");
     expect(() => {
-      //something;
+      scooterApp.dockScooter(scooter, "London");
     }).toThrow("scooter already at station");
   });
 });
 
-// rent scooter
+// rent scooter (COMPLETE)
 describe("rentScooter method tests", () => {
-  const scooter1 = new Scooter("Liverpool");
-  scooterApp.dockScooter(scooter1, "London");
-  scooterApp.registerUser("JoeBloggs", "test123", 21);
+  const scooterApp = new ScooterApp();
 
   // Log scooter is rented to the console.
-  test("", () => {
-    scooterApp.rentScooter(scooter1, "JoeBloggs");
+  test("should log 'scooter is rented' to the console.", () => {
+    scooterApp.station["London"].push({
+      station: "London",
+      user: null,
+      serial: 1,
+      nextSerial: 2,
+      charge: 100,
+      isBroken: false,
+    });
+    scooterApp.rentScooter(
+      {
+        station: "London",
+        user: null,
+        serial: 1,
+        nextSerial: 2,
+        charge: 100,
+        isBroken: false,
+      },
+      "JoeBloggs"
+    );
     expect(console.log).toHaveBeenCalledWith("scooter is rented");
   });
 
-  // can locate scooter
-  test("", () => {
-    expect().toBe();
-  });
-
-  //Removes scooter from station
-  test("", () => {
-    expect().toBe();
+  // can remove scooter from station
+  test("should remove scooter from station", () => {
+    scooterApp.station["London"].push({
+      station: "London",
+      user: null,
+      serial: 1,
+      nextSerial: 2,
+      charge: 100,
+      isBroken: false,
+    });
+    scooterApp.rentScooter(
+      {
+        station: "London",
+        user: null,
+        serial: 1,
+        nextSerial: 2,
+        charge: 100,
+        isBroken: false,
+      },
+      {
+        name: "JoeBloggs",
+        password: "test123",
+        age: 21,
+        loggedIn: false,
+      }
+    );
+    expect(scooterApp.station["London"]).toBe([]);
   });
 
   //Throws 'scooter already rented' error if the scooter is already rented.
   test("", () => {
     expect(() => {
-      //something;
+      scooterApp.rentScooter(
+        {
+          station: "London",
+          user: {
+            name: "JoeBloggs",
+            password: "test123",
+            age: 21,
+            loggedIn: false,
+          },
+          serial: 1,
+          nextSerial: 2,
+          charge: 100,
+          isBroken: false,
+        },
+        {
+          name: "JoeBloggs",
+          password: "test123",
+          age: 21,
+          loggedIn: false,
+        }
+      );
     }).toThrow("scooter already rented");
   });
 });
