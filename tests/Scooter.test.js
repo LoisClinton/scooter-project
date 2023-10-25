@@ -4,7 +4,6 @@ const User = require("../src/User");
 // typeof scooter === object;
 describe("scooter object", () => {
   const scooter = new Scooter("Liverpool");
-
   test("Scooter class should create Scooter instance", () => {
     expect(scooter).toBeInstanceOf(Scooter);
   });

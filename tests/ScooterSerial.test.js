@@ -14,7 +14,6 @@ describe("Scooter class serial number tests", () => {
   test("nextSerial should be one more that serial", () => {
     const answer = { current: scooter.serial, next: Scooter.nextSerial };
     const result = answer.next - answer.current;
-    console.log(answer.next, answer.current);
     expect(result).toBe(1);
   });
 
