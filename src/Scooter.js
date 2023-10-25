@@ -1,3 +1,5 @@
+// const User = require("../src/User");
+
 class Scooter {
   // nextSerial set to 1
   static nextSerial = 1;
@@ -7,7 +9,8 @@ class Scooter {
     this.station = station;
     // initialised values
     this.user = null;
-    this.serial = Scooter.nextSerial;
+    const temp = Scooter.nextSerial;
+    this.serial = temp;
     Scooter.nextSerial++;
     this.charge = 100;
     this.isBroken = false;
@@ -24,8 +27,8 @@ class Scooter {
     }
   }
 
-  dock(station) {
-    this.station = station;
+  dock(_station) {
+    this.station = _station;
     this.user = null;
   }
 

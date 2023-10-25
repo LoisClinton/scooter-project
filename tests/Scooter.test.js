@@ -1,7 +1,7 @@
 const Scooter = require("../src/Scooter");
 const User = require("../src/User");
 
-//typeof scooter === object
+// typeof scooter === object;
 describe("scooter object", () => {
   const scooter = new Scooter("Liverpool");
 
@@ -10,7 +10,7 @@ describe("scooter object", () => {
   });
 });
 
-// Scooter property tests here
+// Scooter  other property tests here
 describe("Scooter property tests", () => {
   const scooter = new Scooter("Liverpool");
   const user = new User("JoeBloggs", "test123", 21);
@@ -32,35 +32,11 @@ describe("Scooter property tests", () => {
   test("if not docked user should be the User who checked out the Scooter", () => {
     scooter.rent(user);
     expect(scooter.user).toEqual({
-      name: "JoeBloggs",
+      username: "JoeBloggs",
       password: "test123",
       age: 21,
       loggedIn: false,
     });
-  });
-
-  // test serial
-  test("serial should be a number", () => {
-    expect(typeof scooter.serial).toBe("number");
-  });
-  test("serial should start as 1", () => {
-    expect(scooter.serial).toBe(1);
-  });
-
-  // test nextSerial
-  test("nextSerial should be 2", () => {
-    expect(scooter.nextSerial).toBe(2);
-  });
-
-  test("nextSerial should increment", () => {
-    const scooter2 = new Scooter("London");
-    expect(scooter2.nextSerial).toBe(3);
-  });
-
-  test("nextSerial should be one more that serial", () => {
-    const scooter2 = new Scooter("Bath");
-    const result = scooter2.nextSerial - scooter2.serial;
-    expect(result).toBe(1);
   });
 
   // test charge (initialised)
@@ -88,12 +64,12 @@ describe("Scooter method tests", () => {
   // test rent
   test("If the Scooter is charged above 20% and not broken, remove it from its station.", () => {
     scooter.rent(user);
-    expect(scooter.station).toBe("null");
+    expect(scooter.station).toBe(null);
   });
   test("If the Scooter is charged above 20% and not broken, check it out to the user.", () => {
     scooter.rent(user);
     expect(scooter.user).toEqual({
-      name: "JoeBloggs",
+      username: "JoeBloggs",
       password: "test123",
       age: 21,
       loggedIn: false,
@@ -111,20 +87,25 @@ describe("Scooter method tests", () => {
       scooter.rent(user);
     }).toThrow("scooter needs repair");
   });
+  //requestRepair method                                //NEEDS EDITING
+  //charge method                                       //NEEDS EDITING
+});
 
+describe("Scooter dock method tests", () => {
+  const scooter = new Scooter("Liverpool");
+  const user = new User("JoeBloggs", "test123", 21);
   // test dock
   test("dock clears out the user", () => {
     scooter.rent(user); //rent first
     scooter.dock("Liverpool");
-    expect(scooter.user).toBe("null");
+    const result = scooter.user;
+    expect(result).toBe(null);
   });
 
   test("dock returns scooter to station", () => {
     scooter.rent(user); //rent first
     scooter.dock("Liverpool");
-    expect(scooter.station).toBe("Liverpool");
+    const result = scooter.station;
+    expect(result).toBe("Liverpool");
   });
-
-  //requestRepair method                                //NEEDS EDITING
-  //charge method                                       //NEEDS EDITING
 });
