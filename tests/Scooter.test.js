@@ -19,14 +19,15 @@ describe("Scooter property tests", () => {
   test("station should be a String", () => {
     expect(typeof scooter.station).toBe("string");
   });
-  test("station should be a Liverpool", () => {
+  test("station should be 'Liverpool'", () => {
     expect(scooter.station).toBe("Liverpool");
   });
 
   // test user (initialised)
   test("if docked user should be the null", () => {
-    expect(scooter.user).toBe("null");
+    expect(scooter.user).toBe(null);
   });
+
   // test user (after method call)
   test("if not docked user should be the User who checked out the Scooter", () => {
     scooter.rent(user);

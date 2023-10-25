@@ -14,13 +14,13 @@ class Scooter {
   }
 
   rent(user) {
-    if (this.charge >= 20 && this.isBroken != true) {
-      this.station = null;
-      this.user = user;
+    if (this.isBroken === true) {
+      throw new Error("scooter needs repair");
     } else if (this.charge < 20) {
       throw new Error("scooter needs to charge");
-    } else if (this.isBroken === true) {
-      throw new Error("scooter needs repair");
+    } else {
+      this.station = null;
+      this.user = user;
     }
   }
 
