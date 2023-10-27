@@ -1,32 +1,35 @@
 const Scooter = require("../src/Scooter");
 const User = require("../src/User");
 
-// Serial tests seperate to avoid interferance
-describe("Scooter class serial number tests", () => {
+// Serial tests in seperate test suite to avoid interferance
+describe("Scooter serial & nextSerial property tests", () => {
   const scooter = new Scooter("Liverpool");
-
-  // test nextSerial and serial first to avoid interferance
-  test("serial should be one and nextSerial should be 2", () => {
-    const answer = { current: scooter.serial, next: Scooter.nextSerial };
-    expect(answer.current).toBe(1);
-    expect(answer.next).toBe(2);
-  });
-  test("nextSerial should be one more that serial", () => {
-    const answer = { current: scooter.serial, next: Scooter.nextSerial };
-    const result = answer.next - answer.current;
-    expect(result).toBe(1);
-  });
-
-  test("nextSerial should increment", () => {
-    const scooter2 = new Scooter("London");
-    expect(Scooter.nextSerial).toBe(3);
-  });
-
-  test("nextSerial should be number", () => {
-    expect(typeof Scooter.nextSerial).toBe("number");
-  });
 
   test("serial should be a number", () => {
     expect(typeof scooter.serial).toBe("number");
+  });
+
+  test("static nextSerial should be number", () => {
+    expect(typeof Scooter.nextSerial).toBe("number");
+  });
+
+  test("serial should be 1", () => {
+    expect(scooter.serial).toBe(1);
+  });
+
+  test("static nextSerial should be 2", () => {
+    expect(Scooter.nextSerial).toBe(2);
+  });
+
+  test("nextSerial should be one more that serial", () => {
+    const result = Scooter.nextSerial - scooter.serial;
+    expect(result).toBe(1);
+  });
+
+  test("nextSerial should increment when creating another Scooter instance", () => {
+    const scooter2 = new Scooter("London");
+
+    expect(scooter2.serial).toBe(2);
+    expect(Scooter.nextSerial).toBe(3);
   });
 });
